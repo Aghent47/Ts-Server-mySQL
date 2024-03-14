@@ -1,25 +1,46 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUsuarios = exports.putUsuario = exports.postUsuario = exports.getUsuario = exports.getUsuarios = void 0;
-const getUsuarios = (req, res) => {
+const usauario_1 = __importDefault(require("../models/usauario"));
+const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const usuarios = yield usauario_1.default.findAll();
     res.json({
-        msg: 'Get - Usuarios'
+        usuarios,
     });
-};
+});
 exports.getUsuarios = getUsuarios;
-const getUsuario = (req, res) => {
+const getUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    res.json({
-        msg: 'Get - Usuario',
-        id
-    });
-};
+    const usuario = yield usauario_1.default.findByPk(id);
+    if (usuario) {
+        res.json({
+            usuario,
+        });
+    }
+    else {
+        res.status(404).json({
+            msg: 'User not found '
+        });
+    }
+});
 exports.getUsuario = getUsuario;
 const postUsuario = (req, res) => {
     const { body } = req;
     res.json({
-        msg: 'Post - Usuario',
-        body
+        msg: "Post - Usuario",
+        body,
     });
 };
 exports.postUsuario = postUsuario;
@@ -27,7 +48,7 @@ const putUsuario = (req, res) => {
     const { id } = req.params;
     // const { nombre } = req.body;
     res.json({
-        msg: 'Put - Usuario',
+        msg: "Put - Usuario",
         id,
     });
 };
@@ -35,8 +56,8 @@ exports.putUsuario = putUsuario;
 const deleteUsuarios = (req, res) => {
     const { id } = req.params;
     res.json({
-        msg: 'Delete - Usuarios',
-        id
+        msg: "Delete - Usuarios",
+        id,
     });
 };
 exports.deleteUsuarios = deleteUsuarios;
