@@ -35,12 +35,11 @@ export const postUsuario = (req: Request, res: Response) => {
 export const putUsuario = (req: Request, res: Response) => {
 
     const { id } = req.params;
-    const { body } = req.body;
+    // const { nombre } = req.body;
 
     res.json({
         msg: 'Put - Usuario',
         id,
-        body
     })
 
 }

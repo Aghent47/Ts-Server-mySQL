@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const usuario_1 = __importDefault(require("../routes/usuario"));
+const cors_1 = __importDefault(require("cors"));
 class ServerTs {
     constructor() {
         this.apiPaths = {
@@ -12,9 +13,20 @@ class ServerTs {
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '3000';
-        //definiendo mis rutas
+        //Métodos iniciales 
+        this.middleware();
         this.routes();
     }
+    //middleware
+    middleware() {
+        // configuration CORS
+        this.app.use((0, cors_1.default)());
+        // lectura del body
+        this.app.use(express_1.default.json());
+        // carpeta publica
+        this.app.use(express_1.default.static('public'));
+    }
+    // TODO: Conectar BD
     //creando el metodo routes 
     routes() {
         this.app.use(this.apiPaths.usuarios, usuario_1.default);
