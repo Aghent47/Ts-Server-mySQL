@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import userRoutes from '../routes/usuario';
 import cors from 'cors';
+import db from '../db/connections';
 class ServerTs {
 
     private app: Application;
@@ -14,7 +15,8 @@ class ServerTs {
         this.app = express();
         this.port = process.env.PORT || '3000';
 
-        //Métodos iniciales 
+        //Métodos iniciales
+        this.dbConnection();
         this.middleware();
         this.routes();
 
@@ -33,6 +35,16 @@ class ServerTs {
         this.app.use(express.static('public'));
     }
     // TODO: Conectar BD MySQL
+      async dbConnection(){
+            try {
+
+                await db.authenticate();
+                console.log('Connection DataBase successful');
+                
+            } catch (error) {
+                throw new Error(error as string);
+            }
+        }
 
     //creando el metodo routes 
     routes(){
