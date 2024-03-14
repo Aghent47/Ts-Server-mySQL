@@ -32,7 +32,7 @@ class ServerTs {
 
         this.app.use(express.static('public'));
     }
-    // TODO: Conectar BD
+    // TODO: Conectar BD MySQL
 
     //creando el metodo routes 
     routes(){

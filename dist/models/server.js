@@ -26,7 +26,7 @@ class ServerTs {
         // carpeta publica
         this.app.use(express_1.default.static('public'));
     }
-    // TODO: Conectar BD
+    // TODO: Conectar BD MySQL
     //creando el metodo routes 
     routes() {
         this.app.use(this.apiPaths.usuarios, usuario_1.default);
