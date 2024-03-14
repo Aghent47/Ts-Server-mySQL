@@ -23,23 +23,64 @@ export const getUsuario = async (req: Request, res: Response) => {
   }
 };
 
-export const postUsuario = (req: Request, res: Response) => {
+export const postUsuario = async (req: Request, res: Response) => {
   const { body } = req;
 
-  res.json({
+  try {
+    const existeCorreo = await Usuario.findOne({
+        where: {
+            correo: body.correo
+        }
+
+     });
+
+     if(existeCorreo){
+        return res.status(400).json({
+            msg: 'El correo ya se encuentra registrado'
+     });
+     }
+    const usuario = await Usuario.create(body);
+    await usuario.save();
+
+    res.json({
     msg: "Post - Usuario",
     body,
   });
+  } catch (error) {
+    console.log(error);
+        res.status(404).json({
+            msg: 'Upss!! Algo salío mal.'
+        })
+  }
+
+  
 };
 
-export const putUsuario = (req: Request, res: Response) => {
+export const putUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
-  // const { nombre } = req.body;
+  const { body } = req;
 
-  res.json({
+  try {
+    
+    const usuario = await Usuario.findByPk(id);
+    if(!usuario){
+        return res.status(404).json({
+            msg: 'No existe el usuario con ID' + id
+        })
+    }
+
+    await usuario.update(body);
+
+    res.json({
     msg: "Put - Usuario",
-    id,
+    usuario
   });
+  } catch (error) {
+    console.log(error);
+        res.status(404).json({
+            msg: 'Upss!! Algo salío mal.'
+        })
+  }
 };
 
 export const deleteUsuarios = (req: Request, res: Response) => {

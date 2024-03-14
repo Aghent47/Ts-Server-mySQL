@@ -36,22 +36,57 @@ const getUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.getUsuario = getUsuario;
-const postUsuario = (req, res) => {
+const postUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
-    res.json({
-        msg: "Post - Usuario",
-        body,
-    });
-};
+    try {
+        const existeCorreo = yield usauario_1.default.findOne({
+            where: {
+                correo: body.correo
+            }
+        });
+        if (existeCorreo) {
+            return res.status(400).json({
+                msg: 'El correo ya se encuentra registrado'
+            });
+        }
+        const usuario = yield usauario_1.default.create(body);
+        yield usuario.save();
+        res.json({
+            msg: "Post - Usuario",
+            body,
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(404).json({
+            msg: 'Upss!! Algo salío mal.'
+        });
+    }
+});
 exports.postUsuario = postUsuario;
-const putUsuario = (req, res) => {
+const putUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    // const { nombre } = req.body;
-    res.json({
-        msg: "Put - Usuario",
-        id,
-    });
-};
+    const { body } = req;
+    try {
+        const usuario = yield usauario_1.default.findByPk(id);
+        if (!usuario) {
+            return res.status(404).json({
+                msg: 'No existe el usuario con ID' + id
+            });
+        }
+        yield usuario.update(body);
+        res.json({
+            msg: "Put - Usuario",
+            usuario
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(404).json({
+            msg: 'Upss!! Algo salío mal.'
+        });
+    }
+});
 exports.putUsuario = putUsuario;
 const deleteUsuarios = (req, res) => {
     const { id } = req.params;

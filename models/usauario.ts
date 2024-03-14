@@ -6,7 +6,8 @@ const Usuario = db.define('Usuario', {
         type: DataTypes.STRING
     },
     correo: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false // Campo obligatorio
     },
     estado: {
         type: DataTypes.BOOLEAN

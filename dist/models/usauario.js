@@ -10,7 +10,8 @@ const Usuario = connections_1.default.define('Usuario', {
         type: sequelize_1.DataTypes.STRING
     },
     correo: {
-        type: sequelize_1.DataTypes.STRING
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false // Campo obligatorio
     },
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN
